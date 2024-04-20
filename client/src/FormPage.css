@@ -1,0 +1,91 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+/* Base settings for the form container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+/* Styling the form to look like Google Forms */
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    width: 100%;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+.form div {
+    margin-bottom: 24px;
+}
+
+label {
+    font-size: 16px;
+    color: #202124;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+button {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #1a73e8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #135ab0;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    /*margin-bottom: 1px;*/
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 10px;
+    /* Space between the checkbox/radio button and the label */
+}
+
+.input-group label {
+    margin-right: 10px;
+    /* Space between label and input */
+    white-space: nowrap;
+    /* Ensures the label does not wrap */
+}
+
+input[type="date"] {
+    width: 180px;
+    /* Adjust the width of the date picker */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
