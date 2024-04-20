@@ -20,6 +20,14 @@ function FormPage() {
     });
     const navigate = useNavigate();
 
+    const serviceOptions = {
+        "Visitas de 1h": 1,
+        "Visitas de 1:30hs": 1.5,
+        "Visitas de 2hs": 2,
+        "Visitas de 3hs": 3,
+        "Visitas overnight (de 22 a 7 AM)": 9
+    };
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         if (type === 'checkbox') {
@@ -28,8 +36,8 @@ function FormPage() {
             } else {
                 setFormData({ ...formData, tipoServicio: formData.tipoServicio.filter(item => item !== value) });
             }
-        } else if (type === 'radio') {
-            setFormData({ ...formData, [name]: value });
+        } else if (type === 'radio' && name === 'tipoServicio') {
+            setFormData({ ...formData, [name]: serviceOptions[value] });
         } else {
             setFormData({ ...formData, [name]: value });
         }
@@ -37,13 +45,13 @@ function FormPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Validate dates
         if (new Date(formData.fechaDesde) > new Date(formData.fechaHasta)) {
             alert("La fecha 'Desde' debe ser menor o igual a la fecha 'Hasta'.");
             return; // Stop submission if the validation fails
         }
-    
+
         try {
             const response = await axios.post('http://localhost:5000/submit-form', formData);
             // Pass the unique ID to the confirmation page via navigate state
@@ -99,11 +107,12 @@ function FormPage() {
                 </div>
                 <div className="input-group">
                     <label>¿Qué tipo de Servicio te interesa?</label>
-                    <label><input type="radio" name="tipoServicio" value="Visitas de 1h" onChange={handleChange} checked={formData.tipoServicio === "Visitas de 1h"} /> Visitas de 1h</label>
-                    <label><input type="radio" name="tipoServicio" value="Visitas de 1:30hs" onChange={handleChange} checked={formData.tipoServicio === "Visitas de 1:30hs"} /> Visitas de 1:30hs</label>
-                    <label><input type="radio" name="tipoServicio" value="Visitas de 2hs" onChange={handleChange} checked={formData.tipoServicio === "Visitas de 2hs"} /> Visitas de 2hs</label>
-                    <label><input type="radio" name="tipoServicio" value="Visitas de 3hs" onChange={handleChange} checked={formData.tipoServicio === "Visitas de 3hs"} /> Visitas de 3hs</label>
-                    <label><input type="radio" name="tipoServicio" value="Visitas overnight (de 22 a 7 AM)" onChange={handleChange} checked={formData.tipoServicio === "Visitas overnight (de 22 a 7 AM)"} /> Visitas overnight (de 22 a 7 AM)</label>
+                    {Object.entries(serviceOptions).map(([label, value]) => (
+                        <label key={value}>
+                            <input type="radio" name="tipoServicio" value={label} onChange={handleChange} checked={formData.tipoServicio === value} />
+                            {label}
+                        </label>
+                    ))}
                 </div>
 
                 <div>

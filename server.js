@@ -29,7 +29,7 @@ const FormSchema = new mongoose.Schema({
     cantidadMichis: Number,
     frecuenciaVisita: String,
     visitasPorDia: String,
-    tipoServicio: String,
+    tipoServicio: Number,
     consideracionesHorario: String,
     otrosComentarios: String,
     whatsapp: String,
@@ -52,7 +52,7 @@ const formValidationSchema = Joi.object({
     frecuenciaVisita: Joi.string().valid('Todos los días', 'Día por medio').required(),
     visitasPorDia: Joi.string().valid('1', '2', 'Otro').required(),
     otroVisitasPorDia: Joi.when('visitasPorDia', { is: 'Otro', then: Joi.required() }),  // Conditional requirement
-    tipoServicio: Joi.string().valid('Visitas de 1h', 'Visitas de 1:30hs', 'Visitas de 2hs', 'Visitas de 3hs', 'Visitas overnight').required(),
+    tipoServicio: Joi.number().valid(1, 1.5, 2, 3, 9).required(),
     consideracionesHorario: Joi.string().allow(''),
     otrosComentarios: Joi.string().allow(''),
     whatsapp: Joi.string().required()
