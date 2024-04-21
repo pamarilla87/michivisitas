@@ -1,18 +1,19 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom'; // Import useLocation to access the navigation state
+import { useLocation, Link } from 'react-router-dom';
+import './ConfirmationPage.css'; // Ensure to link the CSS for styling
 
 function ConfirmationPage() {
-    const location = useLocation(); // Access location object
-    const { id } = location.state || { id: 'Unknown ID' }; // Safely retrieve the ID or set a default
+    const location = useLocation();
+    const { id } = location.state || { id: 'Unknown ID' };
 
     return (
-        <div>
-            <h1>Recibimos tu solicitud!</h1>
-            <p>Nos vamos a estar contactando al celu que nos brindaste.</p>
-            <p>Presupuesto #: {id}</p>
-            <p>
-                <Link to="/">Solicitar otro presupuesto</Link>
-            </p>
+        <div className="confirmation-container">
+            <div className="confirmation-card">
+                <h1>¡Recibimos tu solicitud!</h1>
+                <p>Nos estaremos contactando al número que nos brindaste.</p>
+                <p>Presupuesto #: {id}</p>
+                <Link to="/form" className="new-request-link">Solicitar otro presupuesto</Link>
+            </div>
         </div>
     );
 }

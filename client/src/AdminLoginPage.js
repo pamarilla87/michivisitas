@@ -1,38 +1,50 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './adminLoginPage.css'; // Make sure to link to a CSS file for styling
 
 function AdminLoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:5000/login', { username, password });
             if (response.data.message === 'Logged in successfully') {
-                localStorage.setItem('token', response.data.token); // Store the token
-                navigate('/success'); // Redirect to success page
+                localStorage.setItem('token', response.data.token);
+                navigate('/success');
             } else {
-                alert('Login failed');
+                setError(response.data);
             }
         } catch (error) {
-            alert('Login error: ' + (error.response ? error.response.data.message : 'Network error'));
+            setError('Combinación de usuario y contraseña inválidos');
         }
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault();
         handleLogin();
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-                <button type="submit">Login</button>
-            </form>
+        <div className="login-container">
+            <div className="login-card">
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <label>Username</label>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Nombre de usuario" />
+                    </div>
+                    <div className="input-group">
+                        <label>Password</label>
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Contraseña" />
+                    </div>
+                    <button type="submit" className="login-button">Login</button>
+                    {error && <div className="error-message">{error}</div>}
+                </form>
+            </div>
         </div>
     );
 }

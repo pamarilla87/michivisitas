@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './WelcomePage.css'; // Ensure this path matches the location of your CSS file
 
 function WelcomePage() {
     const navigate = useNavigate();
@@ -10,8 +11,7 @@ function WelcomePage() {
 
     return (
         <div className="welcome-container">
-            <h1>Welcome to MichiVisitas!</h1>
-            <p>Click the button below to request a quote for our services.</p>
+            <h1>Bienvenido a MichiVisitas!</h1>
             <button onClick={handleNavigate}>Solicitud de Presupuesto</button>
         </div>
     );

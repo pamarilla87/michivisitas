@@ -1,0 +1,56 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f7; /* Light pastel blue background consistent with other pages */
+}
+
+.login-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 300px; /* Preserving the size but ensuring aesthetics match */
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff; /* Ensures inputs are clearly visible */
+}
+
+.login-button {
+    background-color: #ff94c2; /* Pastel pink to match buttons on other pages */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #ec829a; /* Darker pink for hover effect */
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333; /* Ensuring header text is consistent in style */
+}

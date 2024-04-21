@@ -65,11 +65,11 @@ function FormPage() {
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit} className="form">
-                <div>
+                <div className="questions">
                     <label>Nombre:</label>
                     <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} />
                 </div>
-                <div>
+                <div className="questions">
                     <label>¿En qué fechas necesitás que cuidemos a tu/s Michi/s?:</label>
                     <div className="input-group">
                         <label>Desde:</label>
@@ -81,11 +81,11 @@ function FormPage() {
                     </div>
                 </div>
 
-                <div>
+                <div className="questions">
                     <label>¿En dónde vivís? Por favor indicá intersección de calles y barrio:</label>
                     <input type="text" name="direccion" value={formData.direccion} onChange={handleChange} />
                 </div>
-                <div>
+                <div className="questions">
                     <label>¿Cuántos Michis tenés?</label>
                     <select name="cantidadMichis" value={formData.cantidadMichis} onChange={handleChange}>
                         {[1, 2, 3, 4, 5, 6].map(n => (
@@ -93,19 +93,17 @@ function FormPage() {
                         ))}
                     </select>
                 </div>
-                <div className="input-group">
+                <div className="input-group questions">
                     <label>¿Con qué frecuencia considerás apropiado que visitemos a tu/s Michi/s?</label>
                     <label><input type="radio" name="frecuenciaVisita" value="Todos los días" onChange={handleChange} checked={formData.frecuenciaVisita === "Todos los días"} /> Todos los días</label>
                     <label><input type="radio" name="frecuenciaVisita" value="Día por medio" onChange={handleChange} checked={formData.frecuenciaVisita === "Día por medio"} /> Día por medio</label>
                 </div>
-                <div className="input-group">
+                <div className="input-group questions">
                     <label>¿Cuántas visitas te gustaría que reciba/n tu/s Michi/s por día?</label>
                     <label><input type="radio" name="visitasPorDia" value="1" onChange={handleChange} checked={formData.visitasPorDia === "1"} /> 1</label>
                     <label><input type="radio" name="visitasPorDia" value="2" onChange={handleChange} checked={formData.visitasPorDia === "2"} /> 2</label>
-                    <label><input type="radio" name="visitasPorDia" value="Otro" onChange={handleChange} checked={formData.visitasPorDia === "Otro"} />
-                        Otro: <input type="text" name="otroVisitasPorDia" value={formData.otroVisitasPorDia} onChange={handleChange} /></label>
                 </div>
-                <div className="input-group">
+                <div className="input-group questions">
                     <label>¿Qué tipo de Servicio te interesa?</label>
                     {Object.entries(serviceOptions).map(([label, value]) => (
                         <label key={value}>
@@ -115,15 +113,15 @@ function FormPage() {
                     ))}
                 </div>
 
-                <div>
+                <div className="questions">
                     <label>¿Contás con alguna consideración especial respecto del horario de las visitas? Contanos por qué motivo/s.</label>
                     <textarea name="consideracionesHorario" value={formData.consideracionesHorario} onChange={handleChange}></textarea>
                 </div>
-                <div>
+                <div className="questions">
                     <label>Otros comentarios que creas importantes para que tengamos en cuenta.</label>
                     <textarea name="otrosComentarios" value={formData.otrosComentarios} onChange={handleChange}></textarea>
                 </div>
-                <div>
+                <div className="questions">
                     <label>Dejanos tu número de Whatsapp para que podamos enviarte el presupuesto. ¡Gracias!</label>
                     <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleChange} />
                 </div>

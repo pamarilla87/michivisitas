@@ -96,24 +96,19 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await User.findOne({ username });
-        if (!user) {
-            console.log("Authentication failed, user not found");
-            return res.status(401).send('Authentication failed');
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            console.log("Authentication failed, user not found or password incorrect");
+            return res.status(401).send('Combinación de usuario y contraseña inválidos');
         }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch) {
-            const token = jwt.sign({ userId: user._id, username: user.username }, process.env.SECRET_KEY, { expiresIn: '1h' });
-            console.log("Logged in successfully, token issued");
-            res.json({ message: 'Logged in successfully', token });
-        } else {
-            console.log("Authentication failed, wrong password");
-            res.status(401).send('Authentication failed');
-        }
+        const token = jwt.sign({ userId: user._id, username: user.username }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        console.log("Logged in successfully, token issued");
+        res.json({ message: 'Logged in successfully', token });
     } catch (error) {
         console.error("Error during authentication:", error);
         res.status(500).send('Error during authentication');
     }
 });
+
 
 app.post('/submit-form', async (req, res) => {
     const { error } = formValidationSchema.validate(req.body);

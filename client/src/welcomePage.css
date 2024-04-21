@@ -1,28 +1,45 @@
+/* Importing Google Fonts used on FormPage */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+/* Base settings for the welcome container to center content */
 .welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This will center the button horizontally */
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f0f4f7; /* Very light pastel blue background for the whole page */
+    font-family: 'Roboto', sans-serif;
     text-align: center;
-    padding-top: 50px;
 }
 
-.welcome-container h1 {
+h1 {
     color: #333;
     font-size: 24px;
+    margin-bottom: 20px;
 }
 
-.welcome-container p {
+p {
+    font-size: 16px;
     color: #666;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
-.welcome-container button {
-    padding: 10px 20px;
-    background-color: #007BFF;
+button {
+    padding: 8px 16px;
     color: white;
+    background-color: #ff94c2; /* Pastel pink */
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 18px;
+    transition: background-color 0.3s ease;
+    display: inline-block; /* Ensures the button doesn't stretch */
+    width: initial; /* Resets any inherited width properties */
+    max-width: fit-content; /* This will make the button wide enough to fit its content */
 }
 
-.welcome-container button:hover {
-    background-color: #0056b3;
+button:hover {
+    background-color: #ec829a; /* Darker shade of pink for hover effect */
 }
