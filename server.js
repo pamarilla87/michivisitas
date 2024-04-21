@@ -23,14 +23,12 @@ mongoose.connect(process.env.DB_URI, {
     console.error("MongoDB connection error. Please make sure MongoDB is running.", err);
 });
 
-// Counter Schema to handle ID increments
 const CounterSchema = new mongoose.Schema({
     _id: {type: String, required: true},
     seq: { type: Number, default: 0 }
 });
 const Counter = mongoose.model('counter', CounterSchema);
 
-// Function to get and increment the sequence
 const getNextSequence = async (name) => {
     const ret = await Counter.findOneAndUpdate(
         {_id: name},
@@ -69,7 +67,7 @@ const FormSchema = new mongoose.Schema({
     otrosComentarios: String,
     whatsapp: String,
     presupuestoNumero: String,
-    pendiente: { type: Boolean, default: true }  // New field to track if the form is pending processing
+    pendiente: { type: Boolean, default: true }
 }, {
     timestamps: true,
     collection: 'presupuestos'
@@ -90,6 +88,16 @@ const formValidationSchema = Joi.object({
     consideracionesHorario: Joi.string().allow(''),
     otrosComentarios: Joi.string().allow(''),
     whatsapp: Joi.string().required()
+});
+
+app.get('/pending-count', async (req, res) => {
+    try {
+        const count = await Form.countDocuments({ pendiente: true });
+        res.json({ count });
+    } catch (error) {
+        console.error("Error retrieving pending count:", error);
+        res.status(500).send({ message: 'Error retrieving pending count' });
+    }
 });
 
 app.post('/register', async (req, res) => {
@@ -137,7 +145,7 @@ app.post('/submit-form', async (req, res) => {
         const presupuestoNumero = await getNextSequence('presupuestoId');
         const newForm = new Form({
             ...req.body,
-            presupuestoNumero: `PRES-${presupuestoNumero}`, // Format it as you like
+            presupuestoNumero: `PRES-${presupuestoNumero}`,
             pendiente: true  // Default to true on creation
         });
         await newForm.save();
