@@ -11,22 +11,26 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 300px; /* Preserving the size but ensuring aesthetics match */
+    width: 300px; /* Ensures that the card size is constant */
     display: flex;
     flex-direction: column;
 }
 
 .input-group {
     margin-bottom: 20px;
+    width: 100%; /* Ensures that input groups fill the card */
 }
 
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #ffffff; /* Ensures inputs are clearly visible */
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    width: 100%; /* ensures inputs fill their container */
+    padding: 10px; /* uniform padding */
+    margin: 0; /* no additional space around inputs */
+    border: 1px solid #ccc; /* standard light grey border */
+    border-radius: 4px; /* soft rounded corners */
+    box-sizing: border-box; /* border and padding included in width */
+    font-size: 14px; /* readable font size */
+    background-color: #ffffff; /* clear white background */
 }
 
 .login-button {
@@ -37,6 +41,7 @@ input[type="password"] {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: auto; /* Prevents stretching to fit container */
 }
 
 .login-button:hover {
@@ -47,10 +52,11 @@ input[type="password"] {
     color: red;
     font-size: 0.875em;
     margin-top: 10px;
+    text-align: center; /* centering error messages */
 }
 
 h2 {
     margin-bottom: 20px;
     text-align: center;
-    color: #333; /* Ensuring header text is consistent in style */
+    color: #333; /* Consistent dark text color */
 }

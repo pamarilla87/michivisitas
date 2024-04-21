@@ -23,6 +23,23 @@ mongoose.connect(process.env.DB_URI, {
     console.error("MongoDB connection error. Please make sure MongoDB is running.", err);
 });
 
+// Counter Schema to handle ID increments
+const CounterSchema = new mongoose.Schema({
+    _id: {type: String, required: true},
+    seq: { type: Number, default: 0 }
+});
+const Counter = mongoose.model('counter', CounterSchema);
+
+// Function to get and increment the sequence
+const getNextSequence = async (name) => {
+    const ret = await Counter.findOneAndUpdate(
+        {_id: name},
+        {$inc: { seq: 1 }},
+        {new: true, upsert: true}
+    );
+    return ret.seq;
+};
+
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true }
@@ -51,7 +68,8 @@ const FormSchema = new mongoose.Schema({
     consideracionesHorario: String,
     otrosComentarios: String,
     whatsapp: String,
-    presupuestoNumero: String
+    presupuestoNumero: String,
+    pendiente: { type: Boolean, default: true }  // New field to track if the form is pending processing
 }, {
     timestamps: true,
     collection: 'presupuestos'
@@ -109,7 +127,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
 app.post('/submit-form', async (req, res) => {
     const { error } = formValidationSchema.validate(req.body);
     if (error) {
@@ -117,10 +134,15 @@ app.post('/submit-form', async (req, res) => {
         return res.status(400).send({ message: error.details[0].message });
     }
     try {
-        const newForm = new Form(req.body);
+        const presupuestoNumero = await getNextSequence('presupuestoId');
+        const newForm = new Form({
+            ...req.body,
+            presupuestoNumero: `PRES-${presupuestoNumero}`, // Format it as you like
+            pendiente: true  // Default to true on creation
+        });
         await newForm.save();
-        console.log("Form saved successfully, ID:", newForm._id);
-        res.status(201).send({ message: 'Form submitted successfully!', id: newForm._id });
+        console.log("Form saved successfully, Presupuesto Numero:", `PRES-${presupuestoNumero}`);
+        res.status(201).send({ message: 'Form submitted successfully!', id: `PRES-${presupuestoNumero}` });
     } catch (error) {
         console.error("Error when submitting form:", error);
         res.status(500).send('Error when submitting form');

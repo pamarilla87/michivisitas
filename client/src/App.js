@@ -5,6 +5,8 @@ import FormPage from './FormPage';
 import ConfirmationPage from './ConfirmationPage';
 import AdminLoginPage from './AdminLoginPage'; // Import the admin login page
 import SuccessPage from './SuccessPage';
+import PendingForms from './PendingForms'; // Ensure this component is created and imported
+
 
 function ProtectedRoute({ children }) {
     const isAuthenticated = localStorage.getItem('token'); // Check if user is logged in
@@ -28,6 +30,11 @@ function App() {
                 <Route path="/success" element={
                     <ProtectedRoute>
                         <SuccessPage />
+                    </ProtectedRoute>
+                } />
+                <Route path="/pending-forms" element={
+                    <ProtectedRoute>
+                        <PendingForms />
                     </ProtectedRoute>
                 } />
             </Routes>
