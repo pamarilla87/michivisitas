@@ -29,14 +29,8 @@ function FormPage() {
     };
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        if (type === 'checkbox') {
-            if (checked) {
-                setFormData({ ...formData, tipoServicio: [...formData.tipoServicio, value] });
-            } else {
-                setFormData({ ...formData, tipoServicio: formData.tipoServicio.filter(item => item !== value) });
-            }
-        } else if (type === 'radio' && name === 'tipoServicio') {
+        const { name, value, type } = e.target;
+        if (type === 'radio' && name === 'tipoServicio') {
             setFormData({ ...formData, [name]: serviceOptions[value] });
         } else {
             setFormData({ ...formData, [name]: value });

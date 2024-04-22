@@ -9,19 +9,6 @@ import PendingForms from './components/PendingForms'; // Ensure this component i
 import { AuthProvider } from './context/AuthContext.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 
-
-/*
-function ProtectedRoute({ children }) {
-    const isAuthenticated = localStorage.getItem('token'); // Check if user is logged in
-
-    if (!isAuthenticated) {
-        // Redirect to the login page if not authenticated
-        return <Navigate to="/admin-login" replace />;
-    }
-
-    return children;  // Render children components if authenticated
-}
-*/
 function App() {
     return (
         <Router>
