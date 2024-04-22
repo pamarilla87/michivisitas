@@ -1,19 +1,22 @@
+// src/components/AdminLoginPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './adminLoginPage.css'; // Make sure to link to a CSS file for styling
+import { useAuth } from '../context/AuthContext'; // Ensure the path is correct
+import './adminLoginPage.css'
 
 function AdminLoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();  // Get login function from context
 
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
             if (response.data.message === 'Logged in successfully') {
-                localStorage.setItem('token', response.data.token);
+                login(response.data.token);
                 navigate('/success');
             } else {
                 setError(response.data);

@@ -1,16 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
-import './SuccessPage.css'; // Make sure the CSS file is correctly linked
+import { jwtDecode } from 'jwt-decode';  // Corrected import
+import './SuccessPage.css'; 
 
 function SuccessPage() {
     const [username, setUsername] = useState('');
     const [pendingCount, setPendingCount] = useState(0);
     const navigate = useNavigate();
 
+    const fetchPendingCount = useCallback(async () => {
+        const response = await fetch('http://localhost:5000/api/form/pending-count', {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+        if (response.ok) {
+            const { count } = await response.json();
+            setPendingCount(count);
+        } else {
+            throw new Error('Failed to fetch pending count');
+        }
+    }, []);
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
+            console.error('No token available');
             navigate('/admin-login');
             return;
         }
@@ -24,23 +37,7 @@ function SuccessPage() {
             localStorage.removeItem('token');
             navigate('/admin-login');
         }
-    }, [navigate]);
-
-    const fetchPendingCount = async () => {
-        try {
-            const response = await fetch('http://localhost:5000/api/form/pending-count', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-            if (response.ok) {
-                const { count } = await response.json();
-                setPendingCount(count);
-            }
-        } catch (error) {
-            console.error('Failed to fetch pending count:', error);
-        }
-    };
+    }, [navigate, fetchPendingCount]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -52,7 +49,7 @@ function SuccessPage() {
     };
 
     const handleRefreshPending = () => {
-        fetchPendingCount();  // Re-fetch the pending count
+        fetchPendingCount();
     };
 
     return (
