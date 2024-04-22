@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import WelcomePage from './WelcomePage';
-import FormPage from './FormPage';
-import ConfirmationPage from './ConfirmationPage';
-import AdminLoginPage from './AdminLoginPage'; // Import the admin login page
-import SuccessPage from './SuccessPage';
-import PendingForms from './PendingForms'; // Ensure this component is created and imported
+import WelcomePage from './components/WelcomePage';
+import FormPage from './components/FormPage';
+import ConfirmationPage from './components/ConfirmationPage';
+import AdminLoginPage from './components/AdminLoginPage'; // Import the admin login page
+import SuccessPage from './components/SuccessPage';
+import PendingForms from './components/PendingForms'; // Ensure this component is created and imported
 
 
 function ProtectedRoute({ children }) {
