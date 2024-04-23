@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';  // Corrected import
-import './SuccessPage.css'; 
+import './UserDashboard.css'
 
-function SuccessPage() {
+function UserDashboard() {
     const [username, setUsername] = useState('');
     const [pendingCount, setPendingCount] = useState(0);
     const navigate = useNavigate();
@@ -67,4 +67,4 @@ function SuccessPage() {
     );
 }
 
-export default SuccessPage;
+export default UserDashboard;

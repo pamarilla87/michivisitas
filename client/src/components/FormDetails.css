@@ -1,0 +1,65 @@
+/* FormDetails.css */
+
+.form-details-container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: flex-start; /* Align content to start */
+    align-items: center; /* Center-align the items horizontally */
+    padding: 20px;
+    background-color: #f0f4f7; /* Consistent light pastel blue background */
+    width: 100%; /* Full width of the container */
+    max-width: 960px; /* Matches table max width */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px auto; /* Center in view and add margin */
+}
+
+.detail-item {
+    display: grid; /* Use grid layout for two columns */
+    grid-template-columns: 2fr 2fr; /* Define the column sizes, 1 fraction to 2 fractions */
+    align-items: center; /* Vertically align items in the middle */
+    width: 100%; /* Full width to align text properly */
+    padding: 10px; /* Padding inside each item */
+    background-color: white; /* Background color for items */
+    border-bottom: 1px solid #ddd; /* Border under each item */
+    margin-bottom: 10px; /* Space between items */
+}
+
+.detail-item label {
+    font-weight: bold;
+    color: #ff94c2; /* Pastel pink for labels */
+}
+
+.detail-value {
+    text-align: left; /* Align the values to the left */
+}
+
+.detail-item:nth-child(odd) {
+    background-color: #f2f2f2; /* Alternate row color for readability */
+}
+
+.detail-item:hover {
+    background-color: #ddd; /* Hover effect */
+}
+
+.volver-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff94c2; /* Pastel pink */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px; /* Space above the button */
+}
+
+.volver-button:hover {
+    background-color: #ec729b; /* A darker shade of pink for hover effect */
+}
+
+label {
+    display: block;
+    margin-bottom: 0px;
+    color: #333;
+    font-size: 16px;
+}

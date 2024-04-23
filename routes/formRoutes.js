@@ -30,6 +30,29 @@ router.get('/pending-count', async (req, res) => {
     }
 });
 
+router.get('/pending-forms', async (req, res) => {
+    try {
+        const forms = await Form.find({ pendiente: true });
+        res.json({ forms });
+    } catch (error) {
+        console.error('Error fetching pending forms:', error);
+        res.status(500).send('Error fetching pending forms');
+    }
+});
+
+router.get('/form-details/:id', async (req, res) => {
+    try {
+        const form = await Form.findById(req.params.id); // Use Mongoose's findById method
+        if (!form) {
+            return res.status(404).send({ message: 'Form not found' });
+        }
+        res.status(200).json(form);  // Respond with the form data if found
+    } catch (error) {
+        console.error('Error fetching form details:', error);
+        res.status(500).send({ message: 'Error fetching form details', error: error.message });
+    }
+});
+
 router.post('/submit-form', async (req, res) => {
     const { error } = formValidationSchema.validate(req.body);
     if (error) {

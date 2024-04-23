@@ -1,0 +1,46 @@
+/* src/components/NotFoundPage.css */
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f7; /* Consistent light pastel blue background */
+}
+
+.not-found-card {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.not-found-title {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px; /* Slightly larger for emphasis */
+}
+
+.not-found-text {
+    font-size: 16px; /* Standardized font size across pages */
+    color: #666;
+    line-height: 1.6;
+}
+
+.new-request-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ff94c2; /* Pastel pink to match buttons on other pages */
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.new-request-link:hover {
+    background-color: #ec829a; /* A darker shade of pink for hover */
+}

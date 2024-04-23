@@ -17,7 +17,7 @@ function AdminLoginPage() {
             const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
             if (response.data.message === 'Logged in successfully') {
                 login(response.data.token);
-                navigate('/success');
+                navigate('/dashboard');
             } else {
                 setError(response.data);
             }
