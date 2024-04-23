@@ -17,7 +17,7 @@
     margin-bottom: 20px; /* Space above the table */
 }
 
-.volver-button, .refresh-button, .view-button {
+.pending-volver-button, .pending-refresh-button, .view-button, .edit-button {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
@@ -26,20 +26,17 @@
     border-radius: 5px;
     cursor: pointer;
     outline: none;
+    min-width: 100px; /* Ensuring all buttons have at least the same width */
+    margin-top: 10px; /* Margin around each button to ensure they don't touch */
 }
 
-.volver-button, .refresh-button {
-    margin-top: 20px;
-
-}
-
-.volver-button:hover, .refresh-button:hover .view-button:hover {
+.pending-volver-button:hover, .pending-refresh-button:hover, .view-button:hover, .edit-button:hover {
     background-color: #ec729b; /* A slightly darker pink for hover effect */
 }
 
 .pending-forms-table {
     width: 100%; /* Full width of the container */
-    max-width: 960px; /* Optional: limit the max width for better readability */
+    max-width: 1024px; /* Optional: limit the max width for better readability */
     margin-bottom: 20px; /* Space at the bottom of the table */
     border-collapse: collapse;
     background-color: white;
@@ -55,7 +52,6 @@
     border-bottom: 1px solid #ddd;
 }
 
-
 .pending-forms-table th {
     background-color: #ff94c2; /* Pastel pink */
     color: white;
@@ -67,4 +63,10 @@
 
 .pending-forms-table tbody tr:hover {
     background-color: #ddd; /* Hover effect */
+}
+
+/* Adding a container for action buttons in each table row to manage spacing */
+.action-buttons {
+    display: flex;
+    gap: 10px; /* Space between action buttons */
 }

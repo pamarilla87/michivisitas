@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PendingForms.css';
-import { formatDate } from '../utils/utils';
+import { formatDateToDDMMYYYY } from '../utils/utils';
 
 function PendingForms() {
     const [forms, setForms] = useState([]);
@@ -9,14 +9,14 @@ function PendingForms() {
 
     const fetchPendingForms = useCallback(async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/form/pending-forms');
+            const response = await fetch('http://localhost:5000/api/form/query-by-status?estado=0');
             if (response.ok) {
-                const { forms } = await response.json();
+                const forms = await response.json();
                 const formattedForms = forms.map(form => ({
                     ...form,
-                    fechaDesde: formatDate(form.fechaDesde),
-                    fechaHasta: formatDate(form.fechaHasta),
-                    fechaCreacion: formatDate(form.createdAt)
+                    fechaDesde: formatDateToDDMMYYYY(form.fechaDesde),
+                    fechaHasta: formatDateToDDMMYYYY(form.fechaHasta),
+                    fechaCreacion: formatDateToDDMMYYYY(form.createdAt)
                 }));
                 setForms(formattedForms);
             } else {
@@ -30,15 +30,7 @@ function PendingForms() {
     useEffect(() => {
         fetchPendingForms();
     }, [fetchPendingForms]);
-/*
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
-    };
-*/
+
     const goBack = () => {
         navigate('/dashboard');
     };
@@ -47,11 +39,15 @@ function PendingForms() {
         navigate(`/form-details/${id}`);
     };
 
+    const handleEditForm = (id) => {
+        navigate(`/edit-form/${id}`);
+    };
+
     return (
         <div className="pending-forms-container">
             <div className="button-group">
-                <button onClick={goBack} className="volver-button">Volver</button>
-                <button onClick={fetchPendingForms} className="refresh-button">Refresh</button>
+                <button onClick={goBack} className="pending-volver-button">Volver</button>
+                <button onClick={fetchPendingForms} className="pending-refresh-button">Refresh</button>
             </div>
             <table className="pending-forms-table">
                 <thead>
@@ -75,13 +71,19 @@ function PendingForms() {
                             <td>{form.fechaCreacion}</td>
                             <td>{form.whatsapp}</td>
                             <td>
-                                <button onClick={() => handleViewDetails(form._id)} className="view-button">
-                                    Ver
-                                </button>
+                                <div className="action-buttons">
+                                    <button onClick={() => handleViewDetails(form._id)} className="view-button">
+                                        Ver
+                                    </button>
+                                    <button onClick={() => handleEditForm(form._id)} className="edit-button">
+                                        Modificar
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}
                 </tbody>
+
             </table>
         </div>
     );

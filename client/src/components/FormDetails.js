@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './FormDetails.css'; // Import the CSS styles
-import { formatDate, calculateAdditionalData  } from '../utils/utils'; // Import the formatDate function for date formatting
+import { calculateAdditionalData, formatDateToDDMMYYYY } from '../utils/utils'; // Import the formatDate function for date formatting
 
 function FormDetails() {
     const { id } = useParams();
@@ -24,9 +24,9 @@ function FormDetails() {
                     setIsLoading(false);
                     return;
                 }
-                data.fechaDesde = formatDate(data.fechaDesde);
-                data.fechaHasta = formatDate(data.fechaHasta);
-                data.fechaCreacion = formatDate(data.createdAt);
+                data.fechaDesde = formatDateToDDMMYYYY(data.fechaDesde);
+                data.fechaHasta = formatDateToDDMMYYYY(data.fechaHasta);
+                data.fechaCreacion = formatDateToDDMMYYYY(data.createdAt);
                 setForm(data);
                 setAdditionalData(additionalResults);
             } catch (error) {
@@ -42,6 +42,13 @@ function FormDetails() {
 
     const goBack = () => {
         navigate(-1);
+    };
+
+    const sendWhatsApp = () => {
+        if (form && form.whatsapp) {
+            const message = encodeURIComponent(`Hola ${form.nombre}, como estas? Te contacto desde Michivisitas por el presupuesto ${form.presupuestoNumero}`);
+            window.open(`https://wa.me/549${form.whatsapp}?text=${message}`, '_blank');
+        }
     };
 
     if (isLoading) {
@@ -118,18 +125,21 @@ function FormDetails() {
 
                     <h1>Información Adicional</h1>
                     <div className="detail-item">
-                        <label>Total días:</label> 
+                        <label>Total días:</label>
                         <div className="detail-value">{additionalData.totalDias}</div>
                     </div>
                     <div className="detail-item">
-                        <label>Total visitas:</label> 
+                        <label>Total visitas:</label>
                         <div className="detail-value">{additionalData.totalVisitas}</div>
                     </div>
                     <div className="detail-item">
-                        <label>Total horas:</label> 
+                        <label>Total horas:</label>
                         <div className="detail-value">{additionalData.totalHoras}</div>
                     </div>
-                    <button onClick={goBack} className="volver-button">Volver</button>
+                    <div className="button-group">
+                        <button onClick={goBack} className="volver-button">Volver</button>
+                        <button onClick={sendWhatsApp} className="whatsapp-button">Enviar WhatsApp</button>
+                    </div>
                 </div>
             ) : (
                 <p>No form details available.</p>

@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContext.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import NotFoundPage from './components/NotFoundPage.js';
 import FormDetails from './components/FormDetails.js';
+import EditForm from './components/EditForm.js';
 
 function App() {
     return (
@@ -36,6 +37,11 @@ function App() {
                         </ProtectedRoute>
                     } />
                     <Route path="*" element={<NotFoundPage />} />
+                    <Route path="/edit-form/:id" element={
+                        <ProtectedRoute>
+                            <EditForm />
+                        </ProtectedRoute>
+                    } />
                 </Routes>
             </AuthProvider>
         </Router>

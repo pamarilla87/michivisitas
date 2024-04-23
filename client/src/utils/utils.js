@@ -11,6 +11,17 @@ export const formatDate = (dateString) => {
     return `${day}-${month}-${year}`;
 };
 
+export const formatDateToDDMMYYYY = (isoDateString) => {
+    // Extract the date part (before the 'T')
+    const datePart = isoDateString.split('T')[0]; // Gets '2024-05-01' from '2024-05-01T00:00:00.000+00:00'
+    
+    // Split the date part into components
+    const [year, month, day] = datePart.split('-'); // Splits '2024-05-01' into ['2024', '05', '01']
+    
+    // Return in DD-MM-YYYY format
+    return `${day}-${month}-${year}`; // Returns '01-05-2024'
+};
+
 export const calculateAdditionalData = (data) => {
     const startDate = new Date(data.fechaDesde);
     const endDate = new Date(data.fechaHasta);

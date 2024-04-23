@@ -13,7 +13,7 @@ const FormSchema = new mongoose.Schema({
     otrosComentarios: String,
     whatsapp: String,
     presupuestoNumero: String,
-    pendiente: { type: Boolean, default: true }
+    estado: Number
 }, {
     timestamps: true,
     collection: 'presupuestos'

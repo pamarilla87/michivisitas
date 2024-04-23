@@ -1,3 +1,4 @@
+import { Counter } from "../models/Counter.js";
 /**
  * Increments and retrieves the next sequence number for a given sequence name.
  * This is useful for auto-incrementing values like order numbers or IDs.

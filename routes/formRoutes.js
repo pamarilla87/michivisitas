@@ -20,9 +20,10 @@ const formValidationSchema = Joi.object({
     whatsapp: Joi.string().required()
 });
 
-router.get('/pending-count', async (req, res) => {
+router.get('/status-count', async (req, res) => {
+    const { estado } = req.query;
     try {
-        const count = await Form.countDocuments({ pendiente: true });
+        const count = await Form.countDocuments({ estado: estado });
         res.json({ count });
     } catch (error) {
         console.error("Error retrieving pending count:", error);
@@ -30,13 +31,26 @@ router.get('/pending-count', async (req, res) => {
     }
 });
 
-router.get('/pending-forms', async (req, res) => {
+router.get('/query-by-status', async (req, res) => {
+    const { estado } = req.query; // Retrieve status from query parameters
+
+    // Optionally convert status to a number if it's supposed to be numeric
+    const numericStatus = parseInt(estado, 10);
+    const validEstados = [0, 1, 2, 3]; // Array of valid estados
+
+    if (isNaN(numericStatus) || !validEstados.includes(numericStatus)) {
+        return res.status(400).send({ message: 'Invalid status provided.' });
+    }
+
     try {
-        const forms = await Form.find({ pendiente: true });
-        res.json({ forms });
+        const forms = await Form.find({ estado: numericStatus });
+        if (forms.length === 0) {
+            return res.status(404).send({ message: 'No forms found with the specified status' });
+        }
+        res.status(200).send(forms);
     } catch (error) {
-        console.error('Error fetching pending forms:', error);
-        res.status(500).send('Error fetching pending forms');
+        console.error('Failed to retrieve forms:', error);
+        res.status(500).send({ message: 'Failed to retrieve forms', error: error.message });
     }
 });
 
@@ -64,7 +78,7 @@ router.post('/submit-form', async (req, res) => {
         const newForm = new Form({
             ...req.body,
             presupuestoNumero: `PRES-${presupuestoNumero}`,
-            pendiente: true  // Default to true on creation
+            estado: 0 //0: nuevo, 1: pendiente, 2: confirmado, 3: rechazado
         });
         await newForm.save();
         console.log("Form saved successfully, Presupuesto Numero:", `PRES-${presupuestoNumero}`);
@@ -75,12 +89,16 @@ router.post('/submit-form', async (req, res) => {
     }
 });
 
-router.post('/update-pendiente/:id', async (req, res) => {
+router.post('/update-estado/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { pendiente } = req.body;
+        const { estado } = req.body;
 
-        const form = await Form.findByIdAndUpdate(id, { pendiente }, { new: true });
+        const validEstados = [0, 1, 2, 3];
+        if (!validEstados.includes(estado)) {
+            return res.status(400).send({ message: 'Invalid estado value.' });
+        }
+        const form = await Form.findByIdAndUpdate(id, { estado }, { new: true });
         if (!form) {
             return res.status(404).send({ message: 'Form not found' });
         }
@@ -88,6 +106,38 @@ router.post('/update-pendiente/:id', async (req, res) => {
     } catch (error) {
         console.error('Error updating form status:', error);
         res.status(500).send({ message: 'Failed to update form status', error: error.message });
+    }
+});
+
+router.put('/update-form/:id', async (req, res) => {
+    const { id } = req.params;
+    const updates = req.body; // This should include any of the fields you wish to update
+
+    try {
+        const updatedForm = await Form.findByIdAndUpdate(id, updates, { new: true });
+        if (!updatedForm) {
+            return res.status(404).send({ message: 'Form not found' });
+        }
+        res.send(updatedForm);
+    } catch (error) {
+        res.status(500).send({ message: 'Error updating form', error: error.message });
+    }
+});
+
+
+router.delete('/delete-form/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const form = await Form.findByIdAndDelete(id);
+
+        if (!form) {
+            return res.status(404).send({ message: 'Form not found' });
+        }
+        
+        res.status(200).send({ message: 'Form deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting form:', error);
+        res.status(500).send({ message: 'Failed to delete form', error: error.message });
     }
 });
 

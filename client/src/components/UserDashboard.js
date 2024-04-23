@@ -9,7 +9,7 @@ function UserDashboard() {
     const navigate = useNavigate();
 
     const fetchPendingCount = useCallback(async () => {
-        const response = await fetch('http://localhost:5000/api/form/pending-count', {
+        const response = await fetch('http://localhost:5000/api/form/status-count?estado=0', {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (response.ok) {
