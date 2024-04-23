@@ -2,8 +2,10 @@
 
 # dependencies
 /node_modules
-/client/node_modules
-../node_modules
+/front/client/node_modules
+/server/node_modules
+front/client/node_modules
+server/node_modules
 /.pnp
 .pnp.js
 
