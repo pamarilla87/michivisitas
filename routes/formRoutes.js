@@ -75,4 +75,20 @@ router.post('/submit-form', async (req, res) => {
     }
 });
 
+router.post('/update-pendiente/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { pendiente } = req.body;
+
+        const form = await Form.findByIdAndUpdate(id, { pendiente }, { new: true });
+        if (!form) {
+            return res.status(404).send({ message: 'Form not found' });
+        }
+        res.status(200).send(form);
+    } catch (error) {
+        console.error('Error updating form status:', error);
+        res.status(500).send({ message: 'Failed to update form status', error: error.message });
+    }
+});
+
 export default router;
